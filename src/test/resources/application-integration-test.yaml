@@ -1,15 +1,10 @@
 
-#spring:
-#  datasource:
-#    url: jdbc:tc:postgresql:15.2:///database1
-#    username: testuser
-#    password: testpass
-#    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
 data:
   sources:
-  - name: data-base-1
-    strategy: postgres
-    url: jdbc:tc:postgresql:15.2://database1
+  - name: database1
+    strategy: postgres:15.2
+    url: init-schema.sql
+#    url: jdbc:postgresql://localhost:56866/database1
     table: users
     user: testuser
     password: testpass
@@ -18,9 +13,10 @@ data:
       username: login
       name: first_name
       surname: last_name
-  - name: data-base-2
-    strategy: postgres
-    url: jdbc:tc:postgresql:15.2://database2
+  - name: database2
+    strategy: postgres:15.2
+    url: init-schema-db2.sql
+#    url: jdbc:tc:postgresql:15.2://database2
     table: user_table
     user: testuser
     password: testpass
@@ -29,3 +25,18 @@ data:
       username: ldap_login
       name: name
       surname: surname
+
+logging:
+  level:
+    com:
+      zaxxer:
+        hikari: DEBUG
+    org:
+      springdoc: DEBUG
+      springframework:
+        test:
+          web:
+            servlet: DEBUG
+        jdbc: DEBUG
+        web:
+          servlet: DEBUG
