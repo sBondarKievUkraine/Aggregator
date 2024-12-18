@@ -6,8 +6,8 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
 \c "database1"
 CREATE TABLE users
 (
-    user_id       VARCHAR(100) NOT NULL PRIMARY KEY,
-    login     VARCHAR(100)       NOT NULL,
+    user_id    VARCHAR(100) NOT NULL PRIMARY KEY,
+    login      VARCHAR(100)       NOT NULL,
     first_name VARCHAR(50) UNIQUE NOT NULL,
     last_name  VARCHAR(100)       NOT NULL
 );

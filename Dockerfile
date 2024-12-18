@@ -10,8 +10,8 @@ RUN mvn -ntp -B clean package $MAVEN_OPTS
 FROM openjdk:22-jdk-slim
 WORKDIR /app
 
-COPY --from=build /app/target/GetUsersTestTask-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/*.jar *.jar
 #to builf from local
-#COPY target/GetUsersTestTask-0.0.1-SNAPSHOT.jar app.jar
+#COPY target/*.jar *.jar
 EXPOSE 8080 5005
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar *.jar"]
