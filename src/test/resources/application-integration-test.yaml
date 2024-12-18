@@ -1,0 +1,31 @@
+
+#spring:
+#  datasource:
+#    url: jdbc:tc:postgresql:15.2:///database1
+#    username: testuser
+#    password: testpass
+#    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+data:
+  sources:
+  - name: data-base-1
+    strategy: postgres
+    url: jdbc:tc:postgresql:15.2://database1
+    table: users
+    user: testuser
+    password: testpass
+    mapping:
+      id: user_id
+      username: login
+      name: first_name
+      surname: last_name
+  - name: data-base-2
+    strategy: postgres
+    url: jdbc:tc:postgresql:15.2://database2
+    table: user_table
+    user: testuser
+    password: testpass
+    mapping:
+      id: ldap_login
+      username: ldap_login
+      name: name
+      surname: surname

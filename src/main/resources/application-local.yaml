@@ -1,0 +1,57 @@
+server:
+  servlet:
+    context-path: /api
+  port: 8081
+
+data:
+  sources:
+  - name: data-base-1
+    strategy: postgres
+    url: jdbc:postgresql://localhost:5432/database1
+    table: users
+    user: testuser
+    password: testpass
+    mapping:
+      id: user_id
+      username: login
+      name: first_name
+      surname: last_name
+  - name: data-base-2
+    strategy: postgres
+    url: jdbc:postgresql://localhost:5432/database2
+    table: user_table
+    user: testuser
+    password: testpass
+    mapping:
+      id: ldap_login
+      username: ldap_login
+      name: name
+      surname: surname
+  - name: db_mysql_1
+    strategy: mysql
+    url: jdbc:mysql://localhost:3306/db_mysql_1
+    table: users_mysql
+    user: root
+    password:
+    mapping:
+      id: user_id
+      username: login
+      name: first_name
+      surname: last_name
+
+logging:
+  level:
+    com:
+      zaxxer:
+        hikari: DEBUG
+    org:
+      springdoc: DEBUG
+      springframework:
+        test:
+          web:
+            servlet: DEBUG
+        jdbc: DEBUG
+        web:
+          servlet: DEBUG
+
+

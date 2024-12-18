@@ -1,0 +1,51 @@
+
+data:
+  sources:
+  - name: data-base-1
+    strategy: postgres
+    url: "jdbc:h2:mem:database1;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:init-schema.sql'"
+    table: users
+    user: testuser
+    password: testpass
+    mapping:
+      id: user_id
+      username: login
+      name: first_name
+      surname: last_name
+  - name: data-base-2
+    strategy: postgres
+    url: "jdbc:h2:mem:database2;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:init-schema-db2.sql'"
+    table: user_table
+    user: testuser
+    password: testpass
+    mapping:
+      id: ldap_login
+      username: ldap_login
+      name: name
+      surname: surname
+  - name: db_mysql_1
+    strategy: mysql
+    url: "jdbc:h2:mem:db_mysql_1;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:init-schema-db_mysql_1.sql'"
+    table: users_mysql
+    user: root
+    password:
+    mapping:
+      id: user_id
+      username: login
+      name: first_name
+      surname: last_name
+
+logging:
+  level:
+    com:
+      zaxxer:
+        hikari: DEBUG
+    org:
+      springdoc: DEBUG
+      springframework:
+        test:
+          web:
+            servlet: DEBUG
+        jdbc: DEBUG
+        web:
+          servlet: DEBUG
