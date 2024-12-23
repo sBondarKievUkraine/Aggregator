@@ -13,12 +13,12 @@ services:
     depends_on:
     - postgres
     - mysql
-#    healthcheck:
-#      test: wget --no-verbose --tries=1 --spider http://localhost:8080//api/actuator/health || exit 1
-#      interval: 5s
-#      retries: 60
-#      start_period: 30s
-#      timeout: 30s
+    healthcheck:
+      test:  curl -f http://localhost:8080/api/actuator/health || exit 1
+      interval: 30s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
 
   postgres:
     image: postgres:15.2
@@ -32,6 +32,12 @@ services:
     volumes:
     - ./postgres/data:/var/lib/postgresql/data
     - ./postgres/init-databases.sh:/docker-entrypoint-initdb.d/init-databases.sh:ro
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U testuser || psql -U testuser -d database1 -c 'SELECT 1;'" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
 
   mysql:
     image: mariadb:10.3.8
