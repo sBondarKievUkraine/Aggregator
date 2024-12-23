@@ -18,5 +18,3 @@ COPY --from=build /app/target/*.jar *.jar
 #COPY target/*.jar *.jar
 EXPOSE 8080 5005
 ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar *.jar"]
-
-#HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 CMD curl -s -f http://app:8080/api/actuator/health || exit 1
