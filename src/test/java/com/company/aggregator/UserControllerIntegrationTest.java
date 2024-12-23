@@ -1,16 +1,13 @@
 package com.company.aggregator;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -24,19 +21,27 @@ public class UserControllerIntegrationTest {
     private DataSourceConfig dataSourceConfig;
 
     @Autowired
+    private TestDataSourceConfig testDataSourceConfig;
+
+    @Autowired
     private UserController userController;
 
     @BeforeEach
     public void setUp() {
-        dataSourceConfig.getSources().forEach(source -> {
-            final var container = new PostgreSQLContainer<>(source.getStrategy())
-                    .withDatabaseName(source.getName())
-                    .withUsername(source.getUser())
-                    .withPassword(source.getPassword())
-                    .withInitScript(source.getUrl());
+
+        /*dataSourceConfig.getSources().stream().map(dataSourceProperties -> {
+            testDataSourceConfig.getSources().stream().map(dataSourceProperties.getName().equals(dataSourceConfig.getSources().))
+        });*/
+        testDataSourceConfig.getSources().forEach(source -> {
+            final var container = new PostgreSQLContainer<>(source.getImage())
+                    .withDatabaseName(source.getDbName())
+//                    .withUsername(.getUser())
+//                    .withPassword(source.getPassword())
+                    .withInitScript(source.getInitSchema());
             container.start();
             assertThat(container.isRunning()).isTrue();
-            source.setUrl(container.getJdbcUrl());
+            //TODO Union the dataSourceConfig with the testData
+//            source.setUrl(container.getJdbcUrl());
         });
     }
 

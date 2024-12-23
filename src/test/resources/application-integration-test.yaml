@@ -3,8 +3,7 @@ data:
   sources:
   - name: database1
     strategy: postgres:15.2
-    url: init-schema.sql
-#    url: jdbc:postgresql://localhost:56866/database1
+    url: jdbc:postgresql://localhost:56866/database1
     table: users
     user: testuser
     password: testpass
@@ -13,18 +12,28 @@ data:
       username: login
       name: first_name
       surname: last_name
-  - name: database2
-    strategy: postgres:15.2
-    url: init-schema-db2.sql
-#    url: jdbc:tc:postgresql:15.2://database2
-    table: user_table
-    user: testuser
-    password: testpass
+  - name: db_mysql_1
+    strategy: mysql
+    url: jdbc:mysql://localhost:3306/db_mysql_1
+    table: users_mysql
+    user: root
+    password:
     mapping:
-      id: ldap_login
-      username: ldap_login
-      name: name
-      surname: surname
+      id: user_id
+      username: login
+      name: first_name
+      surname: last_name
+
+test-config:
+  sources:
+  - name: database1
+    db-name: database1
+    image: postgres:15.2
+    init-schema: init-schema.sql
+  - name: db_mysql_1
+    db-name: db_mysql_1
+    image: mysql:8.0
+    init-schema: init-schema-db_mysql_1.sql
 
 logging:
   level:
